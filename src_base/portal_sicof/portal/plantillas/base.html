@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>{% block titulo %}{% endblock %} | SICOF</title>
+<style>
+{% if ui == "v1" %}
+body { font-family: Tahoma, Verdana, sans-serif; font-size: 13px; background: #c0c0c0; margin: 0; }
+#encabezado { background: #800000; color: #fff; padding: 6px 12px; font-weight: bold; }
+#encabezado a { color: #fff; margin-left: 12px; }
+#contenido { background: #fff; border: 2px outset #c0c0c0; margin: 16px auto; padding: 16px; width: 680px; }
+table.formulario td { padding: 4px 6px; }
+table.datos { border-collapse: collapse; width: 100%; }
+table.datos th, table.datos td { border: 1px solid #808080; padding: 3px 6px; }
+table.datos th { background: #c0c0c0; }
+.mensaje-error { color: #c00000; font-weight: bold; }
+#cargando { background: #ffffe1; border: 1px solid #000; padding: 4px; margin-bottom: 8px; }
+.ayuda { color: #555; font-size: 11px; }
+{% else %}
+body { font-family: system-ui, sans-serif; background: #f5f3ff; margin: 0; color: #1e1b4b; }
+.cabecera { display: flex; justify-content: space-between; background: #4338ca; color: #fff; padding: 14px 32px; }
+.cabecera a { color: #fff; margin-left: 20px; text-decoration: none; }
+.panel { background: #fff; max-width: 760px; margin: 32px auto; padding: 28px 36px; border-radius: 14px; box-shadow: 0 6px 24px rgba(30, 27, 75, .08); }
+.grupo { display: flex; flex-direction: column; margin-bottom: 14px; }
+.grupo input, .grupo select { padding: 8px 10px; border: 1px solid #c7d2fe; border-radius: 8px; }
+.accion { background: #4338ca; color: #fff; border: 0; padding: 10px 18px; border-radius: 8px; cursor: pointer; text-decoration: none; }
+.alerta { background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 8px; }
+.listado { border-collapse: collapse; width: 100%; }
+.listado th, .listado td { border-bottom: 1px solid #e0e7ff; padding: 8px; text-align: left; }
+.espera { color: #4338ca; margin-bottom: 12px; }
+.resumen dt { font-weight: 600; }
+.resumen dd { margin: 0 0 8px 0; }
+{% endif %}
+</style>
+</head>
+<body>
+{% if ui == "v1" %}
+<div id="encabezado">SICOF 2.4 - Sistema Contable Financiero
+{% if autenticado %}<a href="/causaciones/nueva">Nueva causación</a><a href="/causaciones">Consultar causaciones</a><a href="/salir">Salir</a>{% endif %}
+</div>
+<div id="contenido">{% block contenido %}{% endblock %}</div>
+{% else %}
+<header class="cabecera"><span>Cuentas por pagar</span>
+{% if autenticado %}<nav><a href="/causaciones/nueva">Nueva causación</a><a href="/causaciones">Consultar causaciones</a><a href="/salir">Salir</a></nav>{% endif %}
+</header>
+<main class="panel">{{ self.contenido() }}</main>
+{% endif %}
+</body>
+</html>

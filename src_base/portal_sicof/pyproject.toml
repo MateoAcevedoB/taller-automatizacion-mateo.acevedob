@@ -1,0 +1,11 @@
+[project]
+name = "portal-sicof"
+version = "1.0.0"
+description = "Portal legacy SICOF de causación de facturas de proveedores, objetivo del robot RPA"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi==0.141.1",
+    "jinja2==3.1.6",
+    "python-multipart==0.0.32",
+    "uvicorn==0.52.4",
+]

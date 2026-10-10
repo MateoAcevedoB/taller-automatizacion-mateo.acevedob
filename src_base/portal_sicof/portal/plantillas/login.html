@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block titulo %}Ingreso{% endblock %}
+{% block contenido %}
+<h1>Ingreso al sistema</h1>
+{% if ui == "v1" %}
+{% if error %}<p class="mensaje-error" role="alert">{{ error }}</p>{% endif %}
+<form id="frmLogin" method="post" action="/login">
+<table class="formulario">
+<tr><td><label for="txtUsr">Usuario</label></td><td><input id="txtUsr" name="usuario" type="text"></td></tr>
+<tr><td><label for="txtPwd">Contraseña</label></td><td><input id="txtPwd" name="clave" type="password"></td></tr>
+<tr><td></td><td><button id="btnLogin" type="submit">Ingresar</button></td></tr>
+</table>
+</form>
+{% else %}
+{% if error %}<div class="alerta" role="alert">{{ error }}</div>{% endif %}
+<form class="acceso-sicof" method="post" action="/login">
+<div class="grupo"><label for="usr-sicof">Usuario</label><input id="usr-sicof" name="usuario" autocomplete="username"></div>
+<div class="grupo"><label for="pwd-sicof">Contraseña</label><input id="pwd-sicof" name="clave" type="password" autocomplete="current-password"></div>
+<button class="accion" type="submit">Ingresar</button>
+</form>
+{% endif %}
+{% endblock %}

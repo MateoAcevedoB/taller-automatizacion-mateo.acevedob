@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+*.db
+*.sqlite*
+.pytest_cache/
+.coverage
+htmlcov/
+salida/
+*_files/
+.quarto/
+.DS_Store
+Thumbs.db
+~$*.xlsx

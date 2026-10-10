@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Consulta de causaciones{% endblock %}
+{% block contenido %}
+<h1>Consulta de causaciones</h1>
+<form method="get" action="/causaciones">
+<label for="{{ 'txtBuscar' if ui == 'v1' else 'buscar-factura' }}">Buscar por número de factura</label>
+<input id="{{ 'txtBuscar' if ui == 'v1' else 'buscar-factura' }}" name="factura" value="{{ factura }}">
+<button type="submit" {% if ui == "v2" %}class="accion"{% endif %}>Buscar</button>
+</form>
+<table class="{{ 'datos' if ui == 'v1' else 'listado' }}">
+<thead><tr><th>Causación</th><th>NIT</th><th>Proveedor</th><th>Factura</th><th>Valor</th><th>Centro de costo</th><th>Fecha factura</th><th>Registrada</th></tr></thead>
+<tbody>
+{% for c in causaciones %}
+<tr><td>{{ c.numero }}</td><td>{{ c.nit }}</td><td>{{ c.proveedor }}</td><td>{{ c.factura }}</td><td>{{ c.valor | pesos }}</td><td>{{ c.centro }}</td><td>{{ c.fecha_factura.strftime("%d/%m/%Y") }}</td><td>{{ c.registrada_en.strftime("%Y-%m-%d %H:%M:%S") }}</td></tr>
+{% else %}
+<tr><td colspan="8">No hay causaciones registradas</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

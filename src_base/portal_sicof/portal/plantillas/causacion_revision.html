@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Confirmar causación{% endblock %}
+{% block contenido %}
+<h1>Confirmar causación</h1>
+<form {% if ui == "v1" %}id="frmConfirmar"{% else %}class="form-confirmar"{% endif %} method="post" action="/causaciones">
+{% for campo, valor_campo in valores.items() %}<input type="hidden" name="{{ campo }}" value="{{ valor_campo }}">{% endfor %}
+{% if ui == "v1" %}
+<p>Verifique los datos antes de causar la factura. Esta operación no se puede deshacer.</p>
+<table class="formulario">
+<tr><td>Proveedor:</td><td>{{ proveedor }} (NIT {{ valores.nit }})</td></tr>
+<tr><td>Factura:</td><td>{{ valores.factura }}</td></tr>
+<tr><td>Fecha de factura:</td><td>{{ valores.fecha }}</td></tr>
+<tr><td>Valor:</td><td>$ {{ valor | pesos }}</td></tr>
+<tr><td>Centro de costo:</td><td>{{ centro }}</td></tr>
+<tr><td></td><td><button id="btnConfirmar" type="submit">Confirmar causación</button> <a href="/causaciones/nueva">Cancelar</a></td></tr>
+</table>
+{% else %}
+<dl class="resumen">
+<dt>Proveedor</dt><dd>{{ proveedor }}, NIT {{ valores.nit }}</dd>
+<dt>Factura</dt><dd>{{ valores.factura }} del {{ valores.fecha }}</dd>
+<dt>Valor</dt><dd>$ {{ valor | pesos }}</dd>
+<dt>Centro de costo</dt><dd>{{ centro }}</dd>
+</dl>
+<p>La causación queda en firme al confirmar.</p>
+<button class="accion" type="submit">Confirmar causación</button>
+<a href="/causaciones/nueva">Cancelar</a>
+{% endif %}
+</form>
+{% endblock %}

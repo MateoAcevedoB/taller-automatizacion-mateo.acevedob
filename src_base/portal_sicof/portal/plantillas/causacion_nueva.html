@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block titulo %}Nueva causación{% endblock %}
+{% block contenido %}
+<h1>Registrar causación de factura</h1>
+{% if ui == "v1" %}
+<div id="cargando">Cargando maestro de proveedores...</div>
+{% if error %}<p class="mensaje-error" role="alert">{{ error }}</p>{% endif %}
+<form id="frmCausacion" method="post" action="/causaciones/revision">
+<table class="formulario">
+<tr><td><label for="txtNit">NIT del proveedor</label></td><td><input id="txtNit" name="nit" value="{{ valores.nit or '' }}" disabled></td></tr>
+<tr><td><label for="txtFactura">Número de factura</label></td><td><input id="txtFactura" name="factura" value="{{ valores.factura or '' }}" disabled></td></tr>
+<tr><td><label for="txtFecha">Fecha de factura</label></td><td><input id="txtFecha" name="fecha" placeholder="dd/mm/aaaa" value="{{ valores.fecha or '' }}" disabled> <span class="ayuda">dd/mm/aaaa</span></td></tr>
+<tr><td><label for="txtValor">Valor total</label></td><td><input id="txtValor" name="valor" value="{{ valores.valor or '' }}" disabled> <span class="ayuda">sin puntos ni comas</span></td></tr>
+<tr><td><label for="cboCentro">Centro de costo</label></td><td><select id="cboCentro" name="centro" disabled>
+<option value="">-- Seleccione --</option>
+{% for codigo, nombre in centros.items() %}<option value="{{ codigo }}" {% if valores.centro == codigo %}selected{% endif %}>{{ nombre }}</option>{% endfor %}
+</select></td></tr>
+<tr><td></td><td><button id="btnContinuar" type="submit" disabled>Continuar</button></td></tr>
+</table>
+</form>
+<script>
+setTimeout(function () {
+  document.querySelectorAll("#frmCausacion [disabled]").forEach(function (e) { e.disabled = false; });
+  document.getElementById("cargando").style.display = "none";
+}, {{ retardo_ms }});
+</script>
+{% else %}
+<p class="espera" data-espera>Sincronizando maestro de proveedores...</p>
+{% if error %}<div class="alerta" role="alert">{{ error }}</div>{% endif %}
+<form class="form-causacion" method="post" action="/causaciones/revision">
+<fieldset disabled style="border:0;padding:0">
+<div class="grupo"><label for="f-factura">Número de factura</label><input id="f-factura" name="factura" value="{{ valores.factura or '' }}"></div>
+<div class="grupo"><label for="f-nit">NIT del proveedor</label><input id="f-nit" name="nit" inputmode="numeric" value="{{ valores.nit or '' }}"></div>
+<div class="grupo"><label for="f-centro">Centro de costo</label><select id="f-centro" name="centro">
+<option value="">Seleccione un centro de costo</option>
+{% for codigo, nombre in centros.items() %}<option value="{{ codigo }}" {% if valores.centro == codigo %}selected{% endif %}>{{ nombre }}</option>{% endfor %}
+</select></div>
+<div class="grupo"><label for="f-valor">Valor total</label><input id="f-valor" name="valor" inputmode="numeric" value="{{ valores.valor or '' }}"></div>
+<div class="grupo"><label for="f-fecha">Fecha de factura</label><input id="f-fecha" name="fecha" placeholder="dd/mm/aaaa" value="{{ valores.fecha or '' }}"></div>
+<button class="accion" type="submit">Continuar</button>
+</fieldset>
+</form>
+<script>
+setTimeout(function () {
+  document.querySelector(".form-causacion fieldset").disabled = false;
+  document.querySelector("[data-espera]").remove();
+}, {{ retardo_ms }});
+</script>
+{% endif %}
+{% endblock %}

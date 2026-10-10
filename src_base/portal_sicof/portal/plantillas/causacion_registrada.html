@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titulo %}Causación registrada{% endblock %}
+{% block contenido %}
+<h1>Causación registrada</h1>
+{% if ui == "v1" %}
+<table class="formulario">
+<tr><td>Número de causación:</td><td><b id="lblCausacion">{{ causacion.numero }}</b></td></tr>
+<tr><td>Proveedor:</td><td>{{ causacion.proveedor }}</td></tr>
+<tr><td>Factura:</td><td>{{ causacion.factura }}</td></tr>
+<tr><td>Valor:</td><td>$ {{ causacion.valor | pesos }}</td></tr>
+</table>
+<p><a href="/causaciones/nueva">Registrar otra causación</a></p>
+{% else %}
+<p>La factura {{ causacion.factura }} de {{ causacion.proveedor }} quedó causada con el número <strong class="num-cxp">{{ causacion.numero }}</strong>.</p>
+<a class="accion" href="/causaciones/nueva">Registrar otra causación</a>
+{% endif %}
+{% endblock %}
